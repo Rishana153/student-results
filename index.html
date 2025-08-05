@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Result Submission</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+    }
+    #messageArea {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter Student Result</h2>
+  <form id="resultForm">
+    <label>Register Number: <input type="text" name="regno" required></label>
+    <label>Name: <input type="text" name="name" required></label>
+    <label>Kannada/Hindi: <input type="text" name="kanhin"></label>
+    <label>English: <input type="text" name="eng"></label>
+    <label>Data Structures: <input type="text" name="ds"></label>
+    <label>Java: <input type="text" name="java"></label>
+    <label>OS: <input type="text" name="os"></label>
+    <label>Java Lab: <input type="text" name="javaLab"></label>
+    <label>DS Lab: <input type="text" name="dsLab"></label>
+    <label>OS Lab: <input type="text" name="osLab"></label>
+    <label>IC: <input type="text" name="IC"></label>
+    <label>Result (Pass/Fail): <input type="text" name="results"></label>
+    <label>Failed Subjects: <input type="text" name="failedSubjects"></label>
+    <button type="submit">Submit</button>
+  </form>
+  <div id="messageArea"></div>
+
+  <script>
+    function handleResponse(response) {
+      document.getElementById("messageArea").innerText =
+        response.message || "✅ Submitted successfully!";
+    }
+
+    document.getElementById("resultForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const params = new URLSearchParams();
+      formData.forEach((value, key) => {
+        params.append(key, value);
+      });
+      params.append("callback", "handleResponse");
+
+      const script = document.createElement("script");
+      script.src =
+        "https://script.google.com/macros/s/AKfycbxWWpq6TLv173Kznd3lXRbKEUD8bdT5_-qyPqDcx9EEduffEF6kVeYwlIdYPaTzcAjS/exec?" + 
+        params.toString(); // ✅ Added missing "?" here
+      document.body.appendChild(script);
+    });
+  </script>
+</body>
+</html>
